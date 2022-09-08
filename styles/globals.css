@@ -1,26 +1,69 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+@layer base{
+  body{
+    @apply bg-blue-100
   }
-  body {
-    color: white;
-    background: black;
+  th{
+    @apply text-left
+  }
+}
+
+@layer component{
+  /* Sidebar */
+  .sidebar{
+    @apply pt-20 w-1/6 h-screen bg-gradient-to-t from-indigo-50 to-blue-500 z-20 fixed top-0
+  }
+  .sidebartitle{
+    @apply flex flex-col justify-start items-center
+  }
+  .sidebarcontent{
+    @apply mt-20 border-b border-gray-100 pb-4
+  }
+  .sidebaritems{
+    @apply flex mb-2 p-2 justify-start items-center gap-4 pl-5 rounded-md hover:shadow-lg m-auto
+  }
+  .sidebaricons{
+    @apply text-2xl text-white
+  }
+  .sidebartext{
+    @apply text-base text-white font-semibold
+  }
+  .sidebaritems-active{
+    @apply flex p-2 justify-start items-center gap-4 pl-5 rounded-md m-auto bg-blue-100
+  }
+  .sidebaricons-active{
+    @apply text-2xl text-black
+  }
+  .sidebartext-active{
+    @apply text-base text-black font-semibold
+  }
+  
+  /* Header */
+  .profileimg{
+    @apply h-16 mt-10 mr-0 bg-white flex shadow-lg items-center rounded-lg
+  }
+
+  /* Status tab */
+  .statustab-div-active{
+    @apply h-11 px-8 bg-white flex items-end rounded-t-lg cursor-pointer drop-shadow-xl
+  }
+  .statustab-div{
+    @apply h-8 px-8 bg-gray-100 flex items-end rounded-t-lg cursor-pointer hover:bg-gray-200 drop-shadow-xl
+  }
+  .statustab-h3-active{
+    @apply px-7 py-1 mb-1 bg-blue-400 rounded-lg text-white
+  }
+  .statustab-h3{
+    @apply px-7 text-gray-400 hover:text-gray-500
+  }
+  /* Pagination */
+  .page-active{
+    @apply px-4 py-2 mx-5 bg-blue-600 text-white rounded-full
+  }
+  .page{
+    @apply px-4 py-2 mx-5 hover:text-white  hover:bg-blue-600  hover:rounded-full
   }
 }

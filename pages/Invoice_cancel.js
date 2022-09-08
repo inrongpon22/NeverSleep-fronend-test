@@ -1,26 +1,35 @@
 /* eslint-disable react/jsx-key */
-import Head from 'next/head'
+import React from 'react'
 import Image from 'next/image'
-import styles from '../styles/Home.module.css'
 import Sidebar from './Components/Sidebar'
-import ProImage from "../public/gongyoo.jpg";
-import Link from "next/Link";
 import { useState, useEffect } from "react";
 import { GrNext } from "react-icons/Gr";
 import { FaUser } from "react-icons/Fa";
 import { RiBillFill, RiH1 } from "react-icons/Ri";
 import getData from "./Components/users.json";
 import Pagination from "./Components/Pagination";
+import Link from 'next/Link';
+import ProImage from "../public/gongyoo.jpg";
 
 
-export default function Home() {
+
+function Invoice_cancel() {
   //Get JSON
   const getUser = getData.data.users;
-  // const waitPaymentUsers = getUser;
-  // console.log(waitPaymentUsers);
+  const payCancel = [];
+    // Filter WaitpaymentusersData
+    function allWaitStatus() {
+      const nameOfStatus = getUser.map(namestatus => namestatus.status['name_status'].indexOf('ยกเลิก'));
+        for (let i = 0; i < nameOfStatus.length; i++) {
+        if (nameOfStatus[i] === 0) {
+          payCancel.push(getUser[i])
+        }
+      }
+    }
+    allWaitStatus()
 
   // Users Data
-  const [users, setUsers] = useState(getUser);
+  const [users, setUsers] = useState(payCancel);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage, setUsersPerPage] = useState(6);
@@ -29,18 +38,18 @@ export default function Home() {
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUser = users.slice(indexOfFirstUser, indexOfLastUser);
-  const totalUsers = getUser.length;
+  const totalUsers = users.length;
 
   // Change Page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   // Sum of number in array
-  const [sumPayment, setSumPayment] = useState(sumArraysPayment(getUser));
+  const [sumPayment, setSumPayment] = useState(sumArraysPayment(users));
   function sumArraysPayment() {
     let total = 0;
 
-    for (let i = 0; i < getUser.length; i += 1) {
-      total += getUser[i].payment;
+    for (let i = 0; i < users.length; i += 1) {
+      total += users[i].payment;
     }
     return total;
   }
@@ -52,8 +61,6 @@ export default function Home() {
   };
 
 
-
-  
   return (
     <div>
       <div className='flex w-screen h-screen bg-blue-50'>
@@ -129,33 +136,23 @@ export default function Home() {
             <div id="tab" className="h-11 flex justify-around items-end">
               <Link href="/">
                 <div
-                  className={
-                    toggleState === 1 ? "statustab-div-active" : "statustab-div"
-                  }
+                  className="statustab-div"
                   onClick={() => toggleTab(1)}
                 >
                   <h3
-                    className={
-                      toggleState === 1 ? "statustab-h3-active" : "statustab-h3"
-                    }
+                    className="statustab-h3"
                   >
-                    ทั้งหมด({totalUsers})
+                    ทั้งหมด(30)
                   </h3>
                 </div>
               </Link>
               <Link href="/Invoice_waitpayment">
                 <div
-                  className={
-                    toggleState === 2 ? "statustab-div-active" : "statustab-div"
-                  }
+                  className="statustab-div"
                   onClick={() => toggleTab(2)}
                 >
                   <h3
-                    className={
-                      toggleState === 2
-                        ? "statustab-h3-active bg-green-400"
-                        : "statustab-h3"
-                    }
+                    className="statustab-h3"
                   >
                     รอชำระเงิน(10)
                   </h3>
@@ -163,15 +160,11 @@ export default function Home() {
               </Link>
               <Link href='/Invoice_pending'>
                 <div
-                  className={
-                    toggleState === 3 ? "statustab-div-active" : "statustab-div"
-                  }
+                  className="statustab-div"
                   onClick={() => toggleTab(3)}
                 >
                   <h3
-                    className={
-                      toggleState === 3 ? "statustab-h3-active" : "statustab-h3"
-                    }
+                    className="statustab-h3"
                   >
                     รอตรวจสอบ(6)
                   </h3>
@@ -179,15 +172,11 @@ export default function Home() {
               </Link>
               <Link href='/Invoice_paid'>
                 <div
-                  className={
-                    toggleState === 4 ? "statustab-div-active" : "statustab-div"
-                  }
+                  className="statustab-div"
                   onClick={() => toggleTab(4)}
                 >
                   <h3
-                    className={
-                      toggleState === 4 ? "statustab-h3-active" : "statustab-h3"
-                    }
+                    className="statustab-h3"
                   >
                     จ่ายแล้ว(7)
                   </h3>
@@ -195,17 +184,11 @@ export default function Home() {
               </Link>
               <Link href='/Invoice_payfail'>
                 <div
-                  className={
-                    toggleState === 5 ? "statustab-div-active" : "statustab-div"
-                  }
+                  className="statustab-div"
                   onClick={() => toggleTab(5)}
                 >
                   <h3
-                    className={
-                      toggleState === 5
-                        ? "statustab-h3-active bg-gray-400"
-                        : "statustab-h3"
-                    }
+                    className="statustab-h3"
                   >
                     ไม่สำเร็จ(3)
                   </h3>
@@ -213,24 +196,18 @@ export default function Home() {
               </Link>
               <Link href='/Invoice_cancel'>
                 <div
-                  className={
-                    toggleState === 6 ? "statustab-div-active" : "statustab-div"
-                  }
+                  className="statustab-div-active"
                   onClick={() => toggleTab(6)}
                 >
                   <h3
-                    className={
-                      toggleState === 6
-                        ? "statustab-h3-active bg-red-500"
-                        : "statustab-h3"
-                    }
+                    className="statustab-h3-active bg-red-500"
                   >
-                    ยกเลิก(4)
+                    ยกเลิก({totalUsers})
                   </h3>
                 </div>
               </Link>
             </div>
-            <div id="box" className=" bg-white rounded-t-lg rounded-bl-lg rounded-br-lg">
+            <div id="box" className="mb-10 bg-white rounded-t-lg rounded-bl-lg rounded-br-lg">
               <div className="flex justify-between mb-2">
                 <div id="left" className="flex items-end">
                   <div className="pl-10 m-1 flex items-center font-semibold text-gray-500">
@@ -271,7 +248,7 @@ export default function Home() {
                 </div>
               </div>
               <div id="table" className="h-72">
-                <table className="w-full ">
+                <table className="w-full">
                   <thead className="text-sm bg-blue-400">
                     <tr className=" bg-blue-200">
                       <th className="pl-12 pt-2 pb-2 rounded-tl-lg">
@@ -309,39 +286,41 @@ export default function Home() {
                     </tr>
                   </thead>
                   <tbody id="total" className="">
-                    {currentUser.map((user) => (
+                    {currentUser.map((cancelusers) => (
                       <tr>
-                        <td key={user.id} className="pl-12">
-                          {user.id}
+                        <td key={cancelusers.id} className="pl-12">
+                          {cancelusers.id}
                         </td>
-                        <td key={user.code} className=" text-blue-500">
-                          {user.code}
+                        <td key={cancelusers.code} className="text-blue-400">
+                          {cancelusers.code}
                         </td>
-                        <td key={user.project_name} className=" text-blue-500">
-                          {user.project_name}
+                        <td key={cancelusers.project_name} className="text-blue-500">
+                          {cancelusers.project_name}
                         </td>
-                        <td key={user.data} className="">
-                          {user.data.slice(0, 10)}
+                        <td key={cancelusers.data} className="">
+                          {cancelusers.data.slice(0, 10)}
                         </td>
-                        <td key={user.first_name} className="">
-                          {user.first_name}
+                        <td key={cancelusers.first_name} className="">
+                          {cancelusers.first_name}
                         </td>
-                        <td key={user.payment} className=" text-red-500 text-lg font-semibold">
-                          {user.payment.toLocaleString("en-US")}
+                        <td key={cancelusers.payment} className="text-red-500 text-lg font-semibold">
+                          {cancelusers.payment.toLocaleString("en-US")}
                         </td>
-                        <td key={user.slip}>
+                        <td key={cancelusers.slip}>
                           <a href="#" className="">
                             <RiBillFill className='text-blue-500 text-2xl' />
                           </a>
                         </td>
-                        <td key={user.status} className="">
-                          <h4>{user.status.name_status}</h4>
+                        <td key={cancelusers.status} className="text-center">
+                          <h4 className='bg-red-500 rounded-lg w-5/6'>
+                            {cancelusers.status.name_status}
+                            </h4>
                           <div className="flex">
                             <p>โดย</p>
                             <FaUser className='text-gray-600' />
-                            <p>{user.status.id}</p>
+                            <p>{cancelusers.status.id}</p>
                             <FaUser className='text-gray-600' />
-                            <p>{user.status.id}</p>
+                            <p>{cancelusers.status.id}</p>
                           </div>
                         </td>
                       </tr>
@@ -349,13 +328,15 @@ export default function Home() {
                   </tbody>
                 </table>
               </div>
-                <div className="py-2">
+              <div id="pagnition">
+                <div className="py-1">
                   <Pagination
                     usersPerPage={usersPerPage}
                     totalUsers={users.length}
                     paginate={paginate}
                   />
                 </div>
+              </div>
             </div>
           </div>
         </div>
@@ -365,7 +346,7 @@ export default function Home() {
         </div>
       </div>
     </div>
-
-    
-  )
+  );
 }
+
+export default Invoice_cancel

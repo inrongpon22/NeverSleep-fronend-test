@@ -1,19 +1,17 @@
 /* eslint-disable react/jsx-key */
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import Sidebar from './Components/Sidebar'
-import ProImage from "../public/gongyoo.jpg";
+import React from "react";
+import Image from "next/image";
+import ProImage from "../../public/gongyoo.jpg";
 import Link from "next/Link";
 import { useState, useEffect } from "react";
 import { GrNext } from "react-icons/Gr";
 import { FaUser } from "react-icons/Fa";
 import { RiBillFill, RiH1 } from "react-icons/Ri";
-import getData from "./Components/users.json";
-import Pagination from "./Components/Pagination";
+import getData from "./users.json";
+import Pagination from "./Pagination";
+// import Table from "./Table";
 
-
-export default function Home() {
+function Content() {
   //Get JSON
   const getUser = getData.data.users;
   // const waitPaymentUsers = getUser;
@@ -51,15 +49,8 @@ export default function Home() {
     setToggleState(index);
   };
 
-
-
-  
   return (
-    <div>
-      <div className='flex w-screen h-screen bg-blue-50'>
-        <Sidebar />
-        <div className='w-screen'>
-        <div className="w-full rounded-lg ">
+    <div className="w-full rounded-lg ">
       <div className=" mx-10">
         <div id="header" className="flex mt-10 mb-5">
           <div id="left" className="w-9/12 mr-10">
@@ -125,7 +116,7 @@ export default function Home() {
           </div>
         </div>
         <div id="table-box">
-          <div className="mb-5 drop-shadow-xl">
+          <div className="mb-5 ">
             <div id="tab" className="h-11 flex justify-around items-end">
               <Link href="/">
                 <div
@@ -157,11 +148,11 @@ export default function Home() {
                         : "statustab-h3"
                     }
                   >
-                    รอชำระเงิน(10)
+                    รอชำระเงิน(6)
                   </h3>
                 </div>
               </Link>
-              <Link href='/Invoice_pending'>
+              <Link href='#'>
                 <div
                   className={
                     toggleState === 3 ? "statustab-div-active" : "statustab-div"
@@ -177,7 +168,7 @@ export default function Home() {
                   </h3>
                 </div>
               </Link>
-              <Link href='/Invoice_paid'>
+              <Link href='#'>
                 <div
                   className={
                     toggleState === 4 ? "statustab-div-active" : "statustab-div"
@@ -189,11 +180,11 @@ export default function Home() {
                       toggleState === 4 ? "statustab-h3-active" : "statustab-h3"
                     }
                   >
-                    จ่ายแล้ว(7)
+                    จ่ายแล้ว(6)
                   </h3>
                 </div>
               </Link>
-              <Link href='/Invoice_payfail'>
+              <Link href='#'>
                 <div
                   className={
                     toggleState === 5 ? "statustab-div-active" : "statustab-div"
@@ -207,11 +198,11 @@ export default function Home() {
                         : "statustab-h3"
                     }
                   >
-                    ไม่สำเร็จ(3)
+                    ไม่สำเร็จ(6)
                   </h3>
                 </div>
               </Link>
-              <Link href='/Invoice_cancel'>
+              <Link href='#'>
                 <div
                   className={
                     toggleState === 6 ? "statustab-div-active" : "statustab-div"
@@ -225,12 +216,12 @@ export default function Home() {
                         : "statustab-h3"
                     }
                   >
-                    ยกเลิก(4)
+                    ยกเลิก(6)
                   </h3>
                 </div>
               </Link>
             </div>
-            <div id="box" className=" bg-white rounded-t-lg rounded-bl-lg rounded-br-lg">
+            <div id="box" className="mb-10 bg-white rounded-t-lg">
               <div className="flex justify-between mb-2">
                 <div id="left" className="flex items-end">
                   <div className="pl-10 m-1 flex items-center font-semibold text-gray-500">
@@ -256,7 +247,7 @@ export default function Home() {
                 </div>
                 <div id="right" className="">
                   <div className="rounded-t-lg">
-                    <div className="flex px-5 py-5 mr-10 mt-5 text-red-600 bg-gray-100 rounded-lg ">
+                    <div className="flex px-5 py-5 mr-10 mt-5 text-red-600 bg-gray-200 rounded-lg ">
                       <div className="flex justify-start">
                         <p className="text-xs font-semibold">ยอดชำระทั้งหมด</p>
                       </div>
@@ -270,11 +261,11 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div id="table" className="h-72">
-                <table className="w-full ">
+              <div id="table" className="">
+                <table className="w-full">
                   <thead className="text-sm bg-blue-400">
                     <tr className=" bg-blue-200">
-                      <th className="pl-12 pt-2 pb-2 rounded-tl-lg">
+                      <th className="">
                         <p>No.</p>
                         <p className="text-xs">ลำดับที่</p>
                       </th>
@@ -302,7 +293,7 @@ export default function Home() {
                         <p>Slip</p>
                         <p className="text-xs">หลักฐานการโอน</p>
                       </th>
-                      <th className="rounded-tr-lg">
+                      <th className="">
                         <p>Status</p>
                         <p className="text-xs">สถานะ</p>
                       </th>
@@ -311,36 +302,36 @@ export default function Home() {
                   <tbody id="total" className="">
                     {currentUser.map((user) => (
                       <tr>
-                        <td key={user.id} className="pl-12">
+                        <td key={user.id} className="pl-10">
                           {user.id}
                         </td>
-                        <td key={user.code} className=" text-blue-500">
+                        <td key={user.code} className="pl-10">
                           {user.code}
                         </td>
-                        <td key={user.project_name} className=" text-blue-500">
+                        <td key={user.project_name} className="pl-10">
                           {user.project_name}
                         </td>
-                        <td key={user.data} className="">
+                        <td key={user.data} className="pl-10">
                           {user.data.slice(0, 10)}
                         </td>
-                        <td key={user.first_name} className="">
+                        <td key={user.first_name} className="pl-10">
                           {user.first_name}
                         </td>
-                        <td key={user.payment} className=" text-red-500 text-lg font-semibold">
+                        <td key={user.payment} className="pl-10">
                           {user.payment.toLocaleString("en-US")}
                         </td>
                         <td key={user.slip}>
-                          <a href="#" className="">
-                            <RiBillFill className='text-blue-500 text-2xl' />
+                          <a href="#" className="flex justify-center">
+                            <RiBillFill />
                           </a>
                         </td>
-                        <td key={user.status} className="">
+                        <td key={user.status} className="pl-10">
                           <h4>{user.status.name_status}</h4>
                           <div className="flex">
                             <p>โดย</p>
-                            <FaUser className='text-gray-600' />
+                            <FaUser />
                             <p>{user.status.id}</p>
-                            <FaUser className='text-gray-600' />
+                            <FaUser />
                             <p>{user.status.id}</p>
                           </div>
                         </td>
@@ -349,23 +340,21 @@ export default function Home() {
                   </tbody>
                 </table>
               </div>
-                <div className="py-2">
+              <div id="pagnition">
+                <div className="py-1">
                   <Pagination
                     usersPerPage={usersPerPage}
                     totalUsers={users.length}
                     paginate={paginate}
                   />
                 </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-        </div>
-      </div>
-    </div>
-
-    
-  )
+  );
 }
+
+export default Content;
